@@ -284,21 +284,16 @@ void inserionSort(T & a, int size)
 template<typename T>
 void shellSort(T & a, int size)
 {
-	//Initial gap 
 	for (int increment = size / 2; increment > 0; increment = increment / 2)
 	{
 		for (int i = increment; i < size; i += 1)
 		{
-			// add a[i] to the elements that have been gap sorted 
-			// save a[i] in temp and make a hole at position i 
 			int temp = a[i];
-			// shift earlier gap-sorted elements up until the correct location for a[i] is found 
 			int j;
 			for (j = i; j >= increment && a[j - increment] > temp; j -= increment)
 			{
 				a[j] = a[j - increment];
 			}
-			//put temp (the original a[i]) in its correct location 
 			a[j] = temp;
 		}
 	}
@@ -505,7 +500,6 @@ void quickSort(T & ra, int first, int last)
 	int m_small = first;
 	int m_large = last;
 	int pivot = ra[(m_small + m_large) / 2];
-	//int pivot = ra[first];
 
 	while(m_small <= m_large)
 	{
@@ -519,14 +513,7 @@ void quickSort(T & ra, int first, int last)
 		}
 		//if(small < large)		Swap(ra(small++), ra(large--))
 		if (m_small <= m_large) swap(ra, m_small++, m_large--);
-		//else m_small = m_small + 1;
 	}
-	/*Swap (ra(large), ra(first))
-	if(first < large - 1)
-		QuickSort(ra, first, upper - 1) // Sort left
-	if(last > large + 1)
-		QuickSort(ra, upper + 1, last) // Sort right*/
-	//swap(ra, m_large, first);
 	if (first < m_large - 1) quickSort(ra, first, m_large);
 	if (last > m_large + 1) quickSort(ra, m_small, last );
 }
