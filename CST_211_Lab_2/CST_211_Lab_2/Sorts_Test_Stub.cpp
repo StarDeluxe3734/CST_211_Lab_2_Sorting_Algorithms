@@ -50,8 +50,11 @@ template< typename T > void selectionSort(T & a, int size);
 template< typename T > void inserionSort(T & a, int size);
 template< typename T > void shellSort(T & a, int size);
 template< typename T > void heapSort(T & a, int size);
-template< typename T > void moveDown(T & a, int firstNode, int lastIndex);
+template< typename T > void moveDown(T & a, int n, int i);
 template< typename T > void mergeSort(T & a, int size);
+template< typename T , typename Y> void mergeSortFunction(T & la, Y & ra, int left_index, int right_index);
+template< typename T, typename Y> void merge(T & la, Y & temp, int left, int right, int right_end);
+
 
 int main(int argc, const char* argv[])
 {
@@ -77,7 +80,7 @@ int main(int argc, const char* argv[])
 
 	/*********************Initiate Different Arrays***********************************/
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		char * sort = nullptr;
 		copyVals(r_array, c_r_array, &t_array, &c_t_array, &v_array, &c_v_array, n);
@@ -133,34 +136,57 @@ int main(int argc, const char* argv[])
 			sort = new char[strlen("Heap Sort") + 1];
 			strcpy(sort, "Heap Sort");
 			startTime = currentTimeMillis();
-			//heapSort(r_array, n - 1);/*
-			//heapSort(t_array, n);*/
+			//heapSort(r_array, n - 1);
+			//heapSort(t_array, n);
 			//heapSort(v_array, n - 1);
+		}
+		else if (i == 6)
+		{
+			sort = new char[strlen("Merge Sort") + 1];
+			strcpy(sort, "Merge Sort");
+			startTime = currentTimeMillis();
+			mergeSort(r_array, n);
+			//mergeSort(t_array, n);
+			//mergeSort(v_array, n);
 		}
 		long stopTime = currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
 		cout << sort << " for " << n << " integers: " << elapsedTime << endl;
-		/*for (int i = 0; i < n; i = i + 1000)
-		{
-			if (i < n) cout << " " << r_array[i];
-		}*/
-
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < n; i = i + 1000)
 		{
 			if (i < n) cout << " " << r_array[i];
 		}
+
+		/*for (int i = 0; i < n; i++)
+		{
+			if (i < n) cout << " " << r_array[i];
+		}*/
 
 		cout << endl;
 
 		delete[] sort;
 	}
-	/*bruteForceBubble(v_array, n);
-	bruteForceBubble(t_array, n);
-	bruteForceBubble(v_array, n);*/
+	
+	//vector<int> first_test_v_array(n);
+	//vector<int> second_test_v_array(n);
 
-	/*displayTest(v_array, n);
-	displayTest(t_array, n);
-	displayTest(v_array, n);*/
+	//int temp = 0;
+	//for (int i = 0; i < n; i++)
+	//{
+	//	//rand() % (UpperTypeBound - LowerTypeBound + 1) + LowerTypeBound
+	//	temp = 1 + rand() / (RAND_MAX / (50 - 1 + 1) + 1);
+	//	first_test_v_array[i] = temp;
+	//}
+	/*for (int i = 0; i < n; i++)
+	{
+		//rand() % (UpperTypeBound - LowerTypeBound + 1) + LowerTypeBound
+		temp = 1 + rand() / (RAND_MAX / (50 - 1 + 1) + 1);
+		second_test_v_array[i] = temp;
+	}
+	
+	int mid = (0 + n - 1) / 2;
+	merge(first_test_v_array, second_test_v_array, 0, mid + 1, n-1);*/
+	//mergeSortFunction(first_test_v_array, n);
 
 
 	delete[] r_array;
@@ -313,88 +339,187 @@ void shellSort(T & a, int size)
 template<typename T>
 void heapSort(T & a, int size)
 {
-	int i = 0;
-	for (i = (size) / 2; i >= 1; i--)
-	{
-		moveDown(a, i, (size));
-	}
-	i = 0;
-	int temp;
-	for (i = size; i >= 2; i--)
-	{
-		// Storing maximum value at the end.
-		temp = a[i];
-		a[i] = a[1];
-		a[1] = temp;
-		// Building max heap of remaining element.
-		moveDown(a, 1, i - 1);
-	}
+	//int i = 0;
+	//for (i = (size) / 2; i >= 1; i--)
+	//{
+	//	moveDown(a, i, (size));
+	//}
+	//i = 0;
+	//int temp;
+	//for (i = size; i >= 2; i--)
+	//{
+	//	// Storing maximum value at the end.
+	//	temp = a[i];
+	//	a[i] = a[1];
+	//	a[1] = temp;
+	//	// Building max heap of remaining element.
+	//	moveDown(a, 1, i - 1);
+	//}
 
 }
 
 template<typename T>
-void moveDown(T & a, int firstNode, int lastIndex)
+void moveDown(T & a, int n, int i)
 {
 
-	int j, temp;
-	//Go to middle take value
-	temp = a[firstNode];
+	//int j, temp;
+	////Go to middle take value
+	//temp = a[firstNode];
 
-	j = 2 * firstNode;
+	//j = 2 * firstNode;
 
-	while (j <= lastIndex)
-	{
-		//If we are not out of range, if the one next to it is bigger point to it.
-		if (j < lastIndex && a[j + 1] > a[j])
-		{
-			j = j + 1;
-		}
-		//If branch head is bigger end it.
-		if (temp > a[j])
-		{
-			break;
-		}
-		//	break;
-		// Switching value with the parent node if temp < a[j].
-		else if (temp <= a[j])
-		{
-			a[j / 2] = a[j];
-			j = 2 * j;
-		}
-	}
-	a[j / 2] = temp;
-	return;
+	//while (j <= lastIndex)
+	//{
+	//	//If we are not out of range, if the one next to it is bigger point to it.
+	//	if (j < lastIndex && a[j + 1] > a[j])
+	//	{
+	//		j = j + 1;
+	//	}
+	//	//If branch head is bigger end it.
+	//	if (temp > a[j])
+	//	{
+	//		break;
+	//	}
+	//	//	break;
+	//	// Switching value with the parent node if temp < a[j].
+	//	else if (temp <= a[j])
+	//	{
+	//		a[j / 2] = a[j];
+	//		j = 2 * j;
+	//	}
+	//}
+	//a[j / 2] = temp;
+	//return;
 
 	//int largest = i; // Initialize largest as root 
 	//int l = 2 * i + 1; // left = 2*i + 1 
 	//int r = 2 * i + 2; // right = 2*i + 2 
 
 	//// If left child is larger than root 
-	//if (l < n && arr[l] > arr[largest])
+	//if (l < n && a[l] > a[largest])
 	//	largest = l;
 
 	//// If right child is larger than largest so far 
-	//if (r < n && arr[r] > arr[largest])
+	//if (r < n && a[r] > a[largest])
 	//	largest = r;
 
 	//// If largest is not root 
 	//if (largest != i)
 	//{
-	//	swap(arr[i], arr[largest]);
+	//	swap(a[i], a[largest]);
 
 	//	// Recursively heapify the affected sub-tree 
-	//	heapify(arr, n, largest);
+	//	heapify(a, n, largest);
 	//}
 }
 
 template<typename T>
-void mergeSort(T & a, int size)
+void mergeSort(T & ra, int n)
 {
+	vector<int> temp(n);
+	mergeSortFunction(ra, temp, 0, n - 1);
+}
 
+template<typename T , typename Y>
+void mergeSortFunction(T & la, Y & ra, int left_index, int right_index)
+{
+	// Checks to see if there is one element in subarray 
+	if (left_index == right_index) {
+		//At single element
+	//	cout << "Single" << endl;
+	}
+	//If left < right
+	else if (left_index < right_index)
+	{
+		//Set mid = (left + right) / 2
+		int mid = (left_index + right_index) / 2;
+		
+		// Sort first and second halves 
+		mergeSortFunction(la, ra, left_index, mid); // left half
+		mergeSortFunction(la, ra, mid + 1, right_index); // right half
+
+		merge(la, ra, left_index , mid + 1, right_index); //Merge 2 Halves
+	}
+	
+
+	//Call MergeSort(ra, temp, left, mid) // Left half
+	//Call MergeSort(ra, temp, mid + 1, right) // Right half
+	//Call Merge(ra, temp, left, mid + 1, right) // Merge 2 halves
+	//End if
 
 }
 
+template<typename T, typename Y>
+void merge(T & la, Y & temp, int left, int right, int right_end)
+{
+	/*
+	Set left_end = right - 1
+	Set temp_pos = left
+	Set num_elements = right_end - left + 1
 
+	Until we reach the end of ONE of the arrays
+		if ra (left) <= ra (right)
+			temp(temp_pos) = ra (left)
+			increment temp_pos and left
+		else
+			temp(temp_pos) = ra (right)
+			increment temp_pos and right
+		End if
+	End Loop
+	Copy the rest of the left array into the temp array
+	Copy the rest of the right array into the temp array
+
+	Copy the temp array over the top of the original array
+	*/
+	int left_end = right - 1;
+	int temp_pos = left;
+	int num_elements = right_end - left + 1;
+	int toCopyStart = right_end - num_elements + 1;
+	if (toCopyStart < 0) toCopyStart = 0;
+
+	//vector<int> temp(num_elements);
+	
+	while (left <=  left_end && right <= right_end)
+	{
+		if (la[left] <= la[right])
+		{
+			temp[temp_pos] = la[left];
+			temp_pos++;
+			left++;
+		}
+		else
+		{
+			temp[temp_pos] = la[right];
+			temp_pos++;
+			right++;
+		}
+	}
+
+	/* Copy the rest of the left array into the temp array */
+	while (left <= left_end)
+	{
+		//if (temp[temp_pos] == 0) temp[temp_pos] = la[left];
+		//else if (temp[temp_pos] > la[left]) temp[temp_pos] = la[left];
+		temp[temp_pos] = la[left];
+		left++;
+		temp_pos++;
+	}
+	/*Copy the rest of the right array into the temp array*/
+	while (right <= right_end)
+	{
+		//if(temp[temp_pos] == 0) temp[temp_pos] = la[right];
+		//else if(temp[temp_pos] > la[right]) temp[temp_pos] = la[right];
+		temp[temp_pos] = la[right];
+		right++;
+		temp_pos++;
+	}
+
+	/*Copy the temp array over the top of the original array*/
+	for (int i = 0; i < num_elements; i++)
+	{
+		la[toCopyStart + i] = temp[toCopyStart + i];
+	}
+}
 
 
 void genNum(int * r_array, Array<int> * t_array, vector<int> * v_array, int size)
