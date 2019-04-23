@@ -49,8 +49,8 @@ template< typename T > void flagBubble(T & a, int size);
 template< typename T > void selectionSort(T & a, int size);
 template< typename T > void inserionSort(T & a, int size);
 template< typename T > void shellSort(T & a, int size);
-template< typename T > void heapSort(T & a, int size);
-template< typename T > void moveDown(T & a, int n, int i);
+template< typename T > void heapSort(T & a, int n);
+template< typename T > void moveDown(T & a, int first, int last);
 
 template< typename T > void mergeSort(T & a, int size);
 template< typename T , typename Y> void mergeSortFunction(T & la, Y & ra, int left_index, int right_index);
@@ -141,7 +141,7 @@ int main(int argc, const char* argv[])
 			startTime = currentTimeMillis();
 			//heapSort(r_array, n - 1);
 			//heapSort(t_array, n);
-			//heapSort(v_array, n - 1);
+			heapSort(v_array, n);
 		}
 		else if (i == 6)
 		{
@@ -349,80 +349,75 @@ void shellSort(T & a, int size)
 }
 
 template<typename T>
-void heapSort(T & a, int size)
+void heapSort(T & a, int n)
 {
-	//int i = 0;
-	//for (i = (size) / 2; i >= 1; i--)
-	//{
-	//	moveDown(a, i, (size));
-	//}
-	//i = 0;
-	//int temp;
-	//for (i = size; i >= 2; i--)
-	//{
-	//	// Storing maximum value at the end.
-	//	temp = a[i];
-	//	a[i] = a[1];
-	//	a[1] = temp;
-	//	// Building max heap of remaining element.
-	//	moveDown(a, 1, i - 1);
-	//}
+	/*
+	// Build the heap
+	loop starting i at the midpoint of the array and 	continue while i greater than or equal to 0
+
+		Call MoveDown(ra, i, n - 1)
+	end loop
+	// Sort the heap
+	loop starting i at n – 1 and continue until i = 0	Swap the 0th element and the ith element
+		Redo the heap by calling MoveDown(ra, 0, i–1)
+	end loop
+	*/
+	//Build the heap
+	for (int i = (n / 2); i >= 0; i--)
+	{
+		moveDown(a, i, n - 1);
+	}
+	//Sort the heap
+	for (int i = (n - 1); i = 0; i--)
+	{
+		swap(a, 0, i);
+		moveDown(a, 0, i - 1);
+	}
+
 
 }
 
 template<typename T>
-void moveDown(T & a, int n, int i)
+void moveDown(T & a, int first, int last)
 {
+	/*
+	largest = first * 2 + 1
 
-	//int j, temp;
-	////Go to middle take value
-	//temp = a[firstNode];
+	loop while largest is not bigger than the last index	
+	if largest is less than last AND 
+			   the left child < the right child
+			increment largest
+		end if
+	
+		if data in the parent is less than the right child
+			Swap the data in those to elements
+			Set first = largest (The next parent)
+			Set largest = first * 2 + 1 (The left child)
+		
+		else
+			Exit the loop by setting largest = last + 1
+		End if
+	End loop
+	*/
+	int largest = first * 2 + 1;
 
-	//j = 2 * firstNode;
-
-	//while (j <= lastIndex)
-	//{
-	//	//If we are not out of range, if the one next to it is bigger point to it.
-	//	if (j < lastIndex && a[j + 1] > a[j])
-	//	{
-	//		j = j + 1;
-	//	}
-	//	//If branch head is bigger end it.
-	//	if (temp > a[j])
-	//	{
-	//		break;
-	//	}
-	//	//	break;
-	//	// Switching value with the parent node if temp < a[j].
-	//	else if (temp <= a[j])
-	//	{
-	//		a[j / 2] = a[j];
-	//		j = 2 * j;
-	//	}
-	//}
-	//a[j / 2] = temp;
-	//return;
-
-	//int largest = i; // Initialize largest as root 
-	//int l = 2 * i + 1; // left = 2*i + 1 
-	//int r = 2 * i + 2; // right = 2*i + 2 
-
-	//// If left child is larger than root 
-	//if (l < n && a[l] > a[largest])
-	//	largest = l;
-
-	//// If right child is larger than largest so far 
-	//if (r < n && a[r] > a[largest])
-	//	largest = r;
-
-	//// If largest is not root 
-	//if (largest != i)
-	//{
-	//	swap(a[i], a[largest]);
-
-	//	// Recursively heapify the affected sub-tree 
-	//	heapify(a, n, largest);
-	//}
+	while (largest < last)
+	{
+		if (largest < last && a[largest + 1] > a[largest])
+		{
+			largest = largest + 1;
+		}
+		if (a[first] < a[largest + 1])
+		{
+			swap(a, first, largest + 1);
+			first = largest;
+			largest = first * 2 + 1;
+		}
+		else
+		{
+			largest = last + 1;
+		}
+	}
 }
 
 template<typename T>
@@ -579,7 +574,6 @@ void quickSort(T & ra, int first, int last)
 	if (first < m_large - 1) quickSort(ra, first, m_large);
 	if (last > m_large + 1) quickSort(ra, m_small, last );
 }
-
 
 void genNum(int * r_array, Array<int> * t_array, vector<int> * v_array, int size)
 {
