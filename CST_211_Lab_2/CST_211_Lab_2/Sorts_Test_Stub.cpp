@@ -148,7 +148,7 @@ int main(int argc, const char* argv[])
 			sort = new char[strlen("Heap Sort") + 1];
 			strcpy(sort, "Heap Sort");
 			startTime = currentTimeMillis();
-			//heapSort(r_array, n - 1);
+			heapSort(r_array, n);
 			//heapSort(t_array, n);
 			heapSort(v_array, n);
 		}
@@ -193,26 +193,6 @@ int main(int argc, const char* argv[])
 		delete[] sort;
 	}
 	
-	//vector<int> first_test_v_array(n);
-	//vector<int> second_test_v_array(n);
-
-	//int temp = 0;
-	//for (int i = 0; i < n; i++)
-	//{
-	//	//rand() % (UpperTypeBound - LowerTypeBound + 1) + LowerTypeBound
-	//	temp = 1 + rand() / (RAND_MAX / (50 - 1 + 1) + 1);
-	//	first_test_v_array[i] = temp;
-	//}
-	/*for (int i = 0; i < n; i++)
-	{
-		//rand() % (UpperTypeBound - LowerTypeBound + 1) + LowerTypeBound
-		temp = 1 + rand() / (RAND_MAX / (50 - 1 + 1) + 1);
-		second_test_v_array[i] = temp;
-	}
-	
-	int mid = (0 + n - 1) / 2;
-	merge(first_test_v_array, second_test_v_array, 0, mid + 1, n-1);*/
-	//mergeSortFunction(first_test_v_array, n);
 	myfile.close();
 
 	delete[] r_array;
@@ -224,14 +204,16 @@ int main(int argc, const char* argv[])
 
 template< typename T > void bruteForceBubble(T & a, int size)
 {
-	/*(*a)[0] = 90;
+	/*
+	(*a)[0] = 90;
 	Loop n times
 		Loop n – 1 times
 			If array(i) > array(i + 1)
 				Swap(array[i], array(i + 1)
 			End If
 		End Loop
-	End Loop*/
+	End Loop
+	*/
 	//int temp = 0;
 
 	for (int i = 0; i < size; i++)
@@ -240,9 +222,6 @@ template< typename T > void bruteForceBubble(T & a, int size)
 		{
 			if (a[j] > a[j + 1])
 			{
-				/*temp = (a)[j];
-				(a)[j] = (a)[j + 1];
-				(a)[j + 1] = temp;*/
 				swap(a, j, j + 1);
 			}
 		}
@@ -252,17 +231,7 @@ template< typename T > void bruteForceBubble(T & a, int size)
 template<typename T>
 void flagBubble(T & a, int size)
 {
-	//Loop n times keep track of the pass number and quit 		if sorted equals true
-	//	Set sorted = true
-	//	Loop n – pass - 1 times
-	//	If array(i) > array(i + 1)
-	//	sorted = false
-	//	Swap(array[i], array(i + 1)
-	//		End If
-	//		End Loop
-	//		End Loop
 	bool sorted = false;
-	//int temp = 0;
 	for (int i = 0; i < size; i++)
 	{
 		sorted = true;
@@ -270,18 +239,10 @@ void flagBubble(T & a, int size)
 		{
 			if (a[j] > a[j + 1])
 			{
-				/*sorted = false;
-				temp = (a)[j];
-				(a)[j] = (a)[j + 1];
-				(a)[j + 1] = temp;*/
-
 				swap(a, j, j + 1);
 			}
 		}
 	}
-
-
-
 }
 
 template<typename T>
@@ -299,7 +260,6 @@ void selectionSort(T & a, int size)
 		}
 		swap(a, min, i);
 	}
-
 }
 
 template<typename T>
@@ -319,27 +279,12 @@ void inserionSort(T & a, int size)
 		}
 		a[j + 1] = key;
 	}
-	/*int temp = 0;
-	int j = 0;
-	for (int i = 1; i < size; i++)
-	{
-		temp = a[i];
-		for (j = i; j > 0 && temp < a[j-1]; j++)
-		{
-			a[j] = a[j - 1];
-		}
-		a[j] = temp;
-	}*/
-
-
-
 }
 
 template<typename T>
 void shellSort(T & a, int size)
 {
-
-	// Start with a big gap, then reduce the gap 
+	//Initial gap 
 	for (int increment = size / 2; increment > 0; increment = increment / 2)
 	{
 		for (int i = increment; i < size; i += 1)
@@ -347,16 +292,13 @@ void shellSort(T & a, int size)
 			// add a[i] to the elements that have been gap sorted 
 			// save a[i] in temp and make a hole at position i 
 			int temp = a[i];
-
-			// shift earlier gap-sorted elements up until the correct  
-			// location for a[i] is found 
+			// shift earlier gap-sorted elements up until the correct location for a[i] is found 
 			int j;
 			for (j = i; j >= increment && a[j - increment] > temp; j -= increment)
 			{
 				a[j] = a[j - increment];
 			}
-
-			//  put temp (the original a[i]) in its correct location 
+			//put temp (the original a[i]) in its correct location 
 			a[j] = temp;
 		}
 	}
