@@ -23,7 +23,10 @@
 #include <iostream>
 #include <vector>
 #include "Array.h"
+#include <fstream>
 
+
+using std::ofstream;
 using std::cout;
 using std::endl;
 using std::vector;
@@ -82,6 +85,12 @@ int main(int argc, const char* argv[])
 	copyVals(r_array, c_r_array, &t_array, &c_t_array, &v_array, &c_v_array, n);
 
 	/*********************Initiate Different Arrays***********************************/
+
+	//Open File
+	ofstream myfile;
+	myfile.open("Time of Sorts.txt");
+
+
 
 	for (int i = 0; i <= 7; i++)
 	{
@@ -163,10 +172,15 @@ int main(int argc, const char* argv[])
 		}
 		long stopTime = currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
+		myfile << endl << sort << " for " << n << " integers: " << elapsedTime << endl;
 		cout << sort << " for " << n << " integers: " << elapsedTime << endl;
 		for (int i = 0; i < n; i = i + 1000)
 		{
-			if (i < n) cout << " " << r_array[i];
+			if (i < n)
+			{
+				cout << " " << r_array[i];
+				myfile << " " << r_array[i];
+			}
 		}
 
 		/*for (int i = 0; i < n; i++)
@@ -199,7 +213,7 @@ int main(int argc, const char* argv[])
 	int mid = (0 + n - 1) / 2;
 	merge(first_test_v_array, second_test_v_array, 0, mid + 1, n-1);*/
 	//mergeSortFunction(first_test_v_array, n);
-
+	myfile.close();
 
 	delete[] r_array;
 	delete[] c_r_array;

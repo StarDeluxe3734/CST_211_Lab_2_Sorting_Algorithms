@@ -146,6 +146,9 @@
     <ClInclude Include="Array.h" />
     <ClInclude Include="Exception.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Time of Sorts.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
