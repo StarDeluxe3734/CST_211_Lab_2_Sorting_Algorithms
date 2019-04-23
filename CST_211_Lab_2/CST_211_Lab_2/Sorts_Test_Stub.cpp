@@ -92,7 +92,7 @@ int main(int argc, const char* argv[])
 
 
 
-	for (int i = 0; i <= 7; i++)
+	for (int i = 5; i <= 5; i++)
 	{
 		char * sort = nullptr;
 		copyVals(r_array, c_r_array, &t_array, &c_t_array, &v_array, &c_v_array, n);
@@ -201,8 +201,18 @@ int main(int argc, const char* argv[])
 	return 0;
 }
 
-
-template< typename T > void bruteForceBubble(T & a, int size)
+/**********************************************************************
+* Purpose: This is the Brute Force Bubble Sort function.
+*
+* Precondition:
+*	T & a - Array to sort.
+*	int size - Size of the array.
+*
+* Postcondition:
+*	Array is sorted from smallest to largest.
+************************************************************************/
+template< typename T > 
+void bruteForceBubble(T & a, int size)
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -216,6 +226,16 @@ template< typename T > void bruteForceBubble(T & a, int size)
 	}
 }
 
+/**********************************************************************
+* Purpose: This is the Flag Bubble Sort function.
+*
+* Precondition:
+*	T & a - Array to sort.
+*	int size - Size of the array.
+*
+* Postcondition:
+*	Array is sorted from smallest to largest.
+************************************************************************/
 template<typename T>
 void flagBubble(T & a, int size)
 {
@@ -233,6 +253,16 @@ void flagBubble(T & a, int size)
 	}
 }
 
+/**********************************************************************
+* Purpose: This is the Selection Sort function.
+*
+* Precondition:
+*	T & a - Array to sort.
+*	int size - Size of the array.
+*
+* Postcondition:
+*	Array is sorted from smallest to largest.
+************************************************************************/
 template<typename T>
 void selectionSort(T & a, int size)
 {
@@ -250,6 +280,16 @@ void selectionSort(T & a, int size)
 	}
 }
 
+/**********************************************************************
+* Purpose: This is the Insertion Sort function.
+*
+* Precondition:
+*	T & a - Array to sort.
+*	int size - Size of the array.
+*
+* Postcondition:
+*	Array is sorted from smallest to largest.
+************************************************************************/
 template<typename T>
 void inserionSort(T & a, int size)
 {
@@ -269,6 +309,16 @@ void inserionSort(T & a, int size)
 	}
 }
 
+/**********************************************************************
+* Purpose: This is the Shell Sort function.
+*
+* Precondition:
+*	T & a - Array to sort.
+*	int size - Size of the array.
+*
+* Postcondition:
+*	Array is sorted from smallest to largest.
+************************************************************************/
 template<typename T>
 void shellSort(T & a, int size)
 {
@@ -287,68 +337,58 @@ void shellSort(T & a, int size)
 	}
 }
 
+
+/**********************************************************************
+* Purpose: This is the Heap Sort function.
+*
+* Precondition:
+*	T & a - Array to sort.
+*	int n - Size of the array.
+*
+* Postcondition:
+*	Array is sorted from smallest to largest.
+************************************************************************/
 template<typename T>
 void heapSort(T & a, int n)
 {
-	/*
-	// Build the heap
-	loop starting i at the midpoint of the array and 	continue while i greater than or equal to 0
-
-		Call MoveDown(ra, i, n - 1)
-	end loop
-	// Sort the heap
-	loop starting i at n – 1 and continue until i = 0	Swap the 0th element and the ith element
-		Redo the heap by calling MoveDown(ra, 0, i–1)
-	end loop
-	*/
 	//Build the heap
 	for (int i = (n / 2); i >= 0; i--)
 	{
 		moveDown(a, i, n - 1);
 	}
 	//Sort the heap
-	for (int i = (n - 1); i = 0; i--)
+	for (int i = (n - 1); i != 0; i--)
 	{
 		swap(a, 0, i);
 		moveDown(a, 0, i - 1);
 	}
-
-
 }
 
+/**********************************************************************
+* Purpose: This is the Move Down function. Used by Heap Sort.
+*
+* Precondition:
+*	T & a - Array to sort.
+*	int first - Parent node
+*	int last - End of array
+*
+* Postcondition:
+*	Parent, right child, and left child are sorted accordingly.
+************************************************************************/
 template<typename T>
 void moveDown(T & a, int first, int last)
 {
-	/*
-	largest = first * 2 + 1
-
-	loop while largest is not bigger than the last index	
-	if largest is less than last AND 
-			   the left child < the right child
-			increment largest
-		end if
-	
-		if data in the parent is less than the right child
-			Swap the data in those to elements
-			Set first = largest (The next parent)
-			Set largest = first * 2 + 1 (The left child)
-		
-		else
-			Exit the loop by setting largest = last + 1
-		End if
-	End loop
-	*/
 	int largest = first * 2 + 1;
 
-	while (largest < last)
+	while (largest <= last)
 	{
-		if (largest < last && a[largest + 1] > a[largest])
+		if (largest + 1 < last && a[largest + 1] > a[largest])
 		{
 			largest = largest + 1;
 		}
-		if (a[first] < a[largest + 1])
+		if (a[first] < a[largest])
 		{
-			swap(a, first, largest + 1);
+			swap(a, first, largest);
 			first = largest;
 			largest = first * 2 + 1;
 		}
@@ -359,6 +399,16 @@ void moveDown(T & a, int first, int last)
 	}
 }
 
+/**********************************************************************
+* Purpose: This is the Merge Sort.
+*
+* Precondition:
+*	T & ra - Array to sort.
+*	int n - Size of array
+*
+* Postcondition:
+*	Array is sorted from smalles to biggest.
+************************************************************************/
 template<typename T>
 void mergeSort(T & ra, int n)
 {
@@ -366,6 +416,19 @@ void mergeSort(T & ra, int n)
 	mergeSortFunction(ra, temp, 0, n - 1);
 }
 
+
+/**********************************************************************
+* Purpose: This is a helper function for MergeSort, that performs the actual sort.
+*
+* Precondition:
+*	T & la - Array which actually holds data
+*	Y & ra - Temp Array which will hold sorted array.
+*	int left_index - Left Indexing
+*	int right_index - RIght Indexint
+*
+* Postcondition:
+*	Function is recursively called until array is sorted.
+************************************************************************/
 template<typename T , typename Y>
 void mergeSortFunction(T & la, Y & ra, int left_index, int right_index)
 {
@@ -387,6 +450,19 @@ void mergeSortFunction(T & la, Y & ra, int left_index, int right_index)
 	}
 }
 
+/**********************************************************************
+* Purpose: This is a helper function for MergeSort, that performs the merge of two "arrays".
+*
+* Precondition:
+*	T & la - Array which actually holds data
+*	Y & temp - Temp Array which will hold sorted array.
+*	int left - Left start index
+*	int right -  Right Start Index
+*	int right_end - RIght End Index
+*
+* Postcondition:
+*	Function combines and sorts two "Arrays" into temp which is then copied over la.
+************************************************************************/
 template<typename T, typename Y>
 void merge(T & la, Y & temp, int left, int right, int right_end)
 {
@@ -435,18 +511,19 @@ void merge(T & la, Y & temp, int left, int right, int right_end)
 	}
 }
 
+/**********************************************************************
+* Purpose: This is the Quick Sort.
+*
+* Precondition:
+*	T & ra - Array to sort.
+*	int n - Size of array
+*
+* Postcondition:
+*	Array is sorted from smalles to biggest.
+************************************************************************/
 template<typename T>
 void quickSort(T & ra, int n)
 {
-	/*	if n >= 2
-		for (int i = 1, max = 0; i < n; i++)
-			if (ra(max) < ra(i))
-				max = i
-		end loop
-		Swap(ra(n – 1), ra(max))
-		QuickSort(ra, 0, n - 2)
-	end if
-	*/
 	int max = 0;
 	if (n >= 2) {
 		//find max
@@ -462,29 +539,19 @@ void quickSort(T & ra, int n)
 	}
 }
 
+/**********************************************************************
+* Purpose: This is the Quick Sort.
+*
+* Precondition:
+*	int first - 
+*	int last - 
+*
+* Postcondition:
+*	Array is sorted from smalles to biggest.
+************************************************************************/
 template<typename T>
 void quickSort(T & ra, int first, int last)
 {
-	/*
-	small = first + 1; large = last; pivot = ra(first);
-	while(small <= large)
-		while(ra(small) < pivot)
-			small = small + 1
-		while(ra(large) > pivot)
-			large = large - 1
-		if(small < large)
-			Swap(ra(small++), ra(large--))
-		else
-			small = small + 1
-		end if
-	end loop
-	Swap (ra(large), ra(first))
-	if(first < large - 1)
-		QuickSort(ra, first, upper - 1) // Sort left
-	if(last > large + 1)
-		QuickSort(ra, upper + 1, last) // Sort right
-	*/
-
 	int m_small = first;
 	int m_large = last;
 	int pivot = ra[(m_small + m_large) / 2];
@@ -506,6 +573,19 @@ void quickSort(T & ra, int first, int last)
 	if (last > m_large + 1) quickSort(ra, m_small, last );
 }
 
+
+/**********************************************************************
+* Purpose: This function initiates three arrays to the same randomly generated numbers.
+*
+* Precondition:
+*	int * r_array -
+*	Array<int> * t_array - Arr
+*	vector<int> * v_array - Vector array of type of int.
+*	int size - Size of the arrays
+*
+* Postcondition:
+*	Array is sorted from smalles to biggest.
+************************************************************************/
 void genNum(int * r_array, Array<int> * t_array, vector<int> * v_array, int size)
 {
 	//Set them to right size
@@ -535,7 +615,8 @@ inline void swap(T & a, int first, int second)
 	(a)[second] = temp;
 }
 
-template< typename T > void displayTest(T & a, int size)
+template< typename T > 
+void displayTest(T & a, int size)
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -553,4 +634,3 @@ void copyVals(int * r_array, int * c_r_array, Array<int>* t_array, Array<int>* c
 		r_array[i] = c_r_array[i];
 	}
 }
-
