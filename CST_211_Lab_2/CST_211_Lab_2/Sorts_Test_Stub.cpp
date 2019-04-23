@@ -426,7 +426,6 @@ void mergeSortFunction(T & la, Y & ra, int left_index, int right_index)
 	// Checks to see if there is one element in subarray 
 	if (left_index == right_index) {
 		//At single element
-	//	cout << "Single" << endl;
 	}
 	//If left < right
 	else if (left_index < right_index)
@@ -440,47 +439,21 @@ void mergeSortFunction(T & la, Y & ra, int left_index, int right_index)
 
 		merge(la, ra, left_index , mid + 1, right_index); //Merge 2 Halves
 	}
-	
-
-	//Call MergeSort(ra, temp, left, mid) // Left half
-	//Call MergeSort(ra, temp, mid + 1, right) // Right half
-	//Call Merge(ra, temp, left, mid + 1, right) // Merge 2 halves
-	//End if
-
 }
 
 template<typename T, typename Y>
 void merge(T & la, Y & temp, int left, int right, int right_end)
 {
-	/*
-	Set left_end = right - 1
-	Set temp_pos = left
-	Set num_elements = right_end - left + 1
-
-	Until we reach the end of ONE of the arrays
-		if ra (left) <= ra (right)
-			temp(temp_pos) = ra (left)
-			increment temp_pos and left
-		else
-			temp(temp_pos) = ra (right)
-			increment temp_pos and right
-		End if
-	End Loop
-	Copy the rest of the left array into the temp array
-	Copy the rest of the right array into the temp array
-
-	Copy the temp array over the top of the original array
-	*/
-	int left_end = right - 1;
-	int temp_pos = left;
-	int num_elements = right_end - left + 1;
-	int toCopyStart = right_end - num_elements + 1;
-	if (toCopyStart < 0) toCopyStart = 0;
-
-	//vector<int> temp(num_elements);
+	int left_end = right - 1; //Set left_end = right - 1
+	int temp_pos = left; //Set temp_pos = left
+	int num_elements = right_end - left + 1; //Set num_elements = right_end - left + 1
+	int toCopyStart = right_end - num_elements + 1; //For Copying elements over
+	if (toCopyStart < 0) toCopyStart = 0; //In case we go negative
 	
+	//Until we reach the end of ONE of the arrays
 	while (left <=  left_end && right <= right_end)
 	{
+		//Interweeb arrays
 		if (la[left] <= la[right])
 		{
 			temp[temp_pos] = la[left];
@@ -498,8 +471,6 @@ void merge(T & la, Y & temp, int left, int right, int right_end)
 	/* Copy the rest of the left array into the temp array */
 	while (left <= left_end)
 	{
-		//if (temp[temp_pos] == 0) temp[temp_pos] = la[left];
-		//else if (temp[temp_pos] > la[left]) temp[temp_pos] = la[left];
 		temp[temp_pos] = la[left];
 		left++;
 		temp_pos++;
@@ -507,13 +478,10 @@ void merge(T & la, Y & temp, int left, int right, int right_end)
 	/*Copy the rest of the right array into the temp array*/
 	while (right <= right_end)
 	{
-		//if(temp[temp_pos] == 0) temp[temp_pos] = la[right];
-		//else if(temp[temp_pos] > la[right]) temp[temp_pos] = la[right];
 		temp[temp_pos] = la[right];
 		right++;
 		temp_pos++;
 	}
-
 	/*Copy the temp array over the top of the original array*/
 	for (int i = 0; i < num_elements; i++)
 	{
