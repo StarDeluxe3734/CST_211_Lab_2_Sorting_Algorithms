@@ -51,10 +51,13 @@ template< typename T > void inserionSort(T & a, int size);
 template< typename T > void shellSort(T & a, int size);
 template< typename T > void heapSort(T & a, int size);
 template< typename T > void moveDown(T & a, int n, int i);
+
 template< typename T > void mergeSort(T & a, int size);
 template< typename T , typename Y> void mergeSortFunction(T & la, Y & ra, int left_index, int right_index);
 template< typename T, typename Y> void merge(T & la, Y & temp, int left, int right, int right_end);
 
+template< typename T > void quickSort(T & ra, int n);
+template< typename T > void quickSort(T & ra, int first, int last);
 
 int main(int argc, const char* argv[])
 {
@@ -80,7 +83,7 @@ int main(int argc, const char* argv[])
 
 	/*********************Initiate Different Arrays***********************************/
 
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i <= 7; i++)
 	{
 		char * sort = nullptr;
 		copyVals(r_array, c_r_array, &t_array, &c_t_array, &v_array, &c_v_array, n);
@@ -146,6 +149,15 @@ int main(int argc, const char* argv[])
 			strcpy(sort, "Merge Sort");
 			startTime = currentTimeMillis();
 			mergeSort(r_array, n);
+			//mergeSort(t_array, n);
+			//mergeSort(v_array, n);
+		}
+		else if (i == 7)
+		{
+			sort = new char[strlen("Quick Sort") + 1];
+			strcpy(sort, "Quick Sort");
+			startTime = currentTimeMillis();
+			quickSort(v_array, n);
 			//mergeSort(t_array, n);
 			//mergeSort(v_array, n);
 		}
@@ -487,6 +499,84 @@ void merge(T & la, Y & temp, int left, int right, int right_end)
 	{
 		la[toCopyStart + i] = temp[toCopyStart + i];
 	}
+}
+
+template<typename T>
+void quickSort(T & ra, int n)
+{
+	/*	if n >= 2
+		for (int i = 1, max = 0; i < n; i++)
+			if (ra(max) < ra(i))
+				max = i
+		end loop
+		Swap(ra(n – 1), ra(max))
+		QuickSort(ra, 0, n - 2)
+	end if
+	*/
+	int max = 0;
+	if (n >= 2) {
+		//find max
+		for (int i = 1, max = 0; i < n; i++)
+		{
+			if (ra[max] < ra[i])
+			{
+				max = i;
+			}
+		}
+		swap(ra, n - 1, max);
+		quickSort(ra, 0, n - 2);
+	}
+
+}
+
+template<typename T>
+void quickSort(T & ra, int first, int last)
+{
+	/*
+	small = first + 1; large = last; pivot = ra(first);
+	while(small <= large)
+		while(ra(small) < pivot)
+			small = small + 1
+		while(ra(large) > pivot)
+			large = large - 1
+		if(small < large)
+			Swap(ra(small++), ra(large--))
+		else
+			small = small + 1
+		end if
+	end loop
+	Swap (ra(large), ra(first))
+	if(first < large - 1)
+		QuickSort(ra, first, upper - 1) // Sort left
+	if(last > large + 1)
+		QuickSort(ra, upper + 1, last) // Sort right
+	*/
+
+	int m_small = first;
+	int m_large = last;
+	int pivot = ra[first];
+	while(m_small <= m_large)
+	{
+		while (ra[m_small] < pivot)
+		{
+			m_small = m_small + 1;
+		}
+		while (ra[m_large] > pivot)
+		{
+			m_large = m_large - 1;
+		}
+		//if(small < large)		Swap(ra(small++), ra(large--))
+		if (m_small < m_large) swap(ra, m_small++, m_large--);
+		else m_small = m_small + 1;
+	}
+	/*Swap (ra(large), ra(first))
+	if(first < large - 1)
+		QuickSort(ra, first, upper - 1) // Sort left
+	if(last > large + 1)
+		QuickSort(ra, upper + 1, last) // Sort right*/
+	swap(ra, m_large, first);
+	if (first < m_large - 1) quickSort(ra, first, m_large - 1);
+	if (last > m_large + 1) quickSort(ra, m_small + 1, last );
 }
 
 
