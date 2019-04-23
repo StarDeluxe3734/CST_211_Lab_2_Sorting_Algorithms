@@ -157,7 +157,7 @@ int main(int argc, const char* argv[])
 			sort = new char[strlen("Quick Sort") + 1];
 			strcpy(sort, "Quick Sort");
 			startTime = currentTimeMillis();
-			quickSort(v_array, n);
+			quickSort(r_array, n);
 			//mergeSort(t_array, n);
 			//mergeSort(v_array, n);
 		}
@@ -516,17 +516,16 @@ void quickSort(T & ra, int n)
 	int max = 0;
 	if (n >= 2) {
 		//find max
-		for (int i = 1, max = 0; i < n; i++)
+		for (int i = 1; i < n; i++)
 		{
 			if (ra[max] < ra[i])
 			{
 				max = i;
 			}
-		}
+		}	
 		swap(ra, n - 1, max);
 		quickSort(ra, 0, n - 2);
 	}
-
 }
 
 template<typename T>
@@ -554,7 +553,9 @@ void quickSort(T & ra, int first, int last)
 
 	int m_small = first;
 	int m_large = last;
-	int pivot = ra[first];
+	int pivot = ra[(m_small + m_large) / 2];
+	//int pivot = ra[first];
+
 	while(m_small <= m_large)
 	{
 		while (ra[m_small] < pivot)
@@ -566,17 +567,17 @@ void quickSort(T & ra, int first, int last)
 			m_large = m_large - 1;
 		}
 		//if(small < large)		Swap(ra(small++), ra(large--))
-		if (m_small < m_large) swap(ra, m_small++, m_large--);
-		else m_small = m_small + 1;
+		if (m_small <= m_large) swap(ra, m_small++, m_large--);
+		//else m_small = m_small + 1;
 	}
 	/*Swap (ra(large), ra(first))
 	if(first < large - 1)
 		QuickSort(ra, first, upper - 1) // Sort left
 	if(last > large + 1)
 		QuickSort(ra, upper + 1, last) // Sort right*/
-	swap(ra, m_large, first);
-	if (first < m_large - 1) quickSort(ra, first, m_large - 1);
-	if (last > m_large + 1) quickSort(ra, m_small + 1, last );
+	//swap(ra, m_large, first);
+	if (first < m_large - 1) quickSort(ra, first, m_large);
+	if (last > m_large + 1) quickSort(ra, m_small, last );
 }
 
 
