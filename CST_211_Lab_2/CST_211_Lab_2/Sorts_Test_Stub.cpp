@@ -204,18 +204,6 @@ int main(int argc, const char* argv[])
 
 template< typename T > void bruteForceBubble(T & a, int size)
 {
-	/*
-	(*a)[0] = 90;
-	Loop n times
-		Loop n – 1 times
-			If array(i) > array(i + 1)
-				Swap(array[i], array(i + 1)
-			End If
-		End Loop
-	End Loop
-	*/
-	//int temp = 0;
-
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0; j < size - 1; j++)
