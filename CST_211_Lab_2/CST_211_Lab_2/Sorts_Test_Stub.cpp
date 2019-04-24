@@ -92,7 +92,7 @@ int main(int argc, const char* argv[])
 
 
 
-	for (int i = 4; i <= 4; i++)
+	for (int i = 0; i <= 7; i++)
 	{
 		char * sort = nullptr;
 		copyVals(r_array, c_r_array, &t_array, &c_t_array, &v_array, &c_v_array, n);
@@ -139,8 +139,8 @@ int main(int argc, const char* argv[])
 			sort = new char[strlen("Shell Sort") + 1];
 			strcpy(sort, "Shell Sort");
 			startTime = currentTimeMillis();
-			//shellSort(r_array, n); 
-			shellSort(v_array, n);
+			shellSort(r_array, n); 
+			//shellSort(v_array, n);
 			/*shellSort(t_array, n);
 			shellSort(v_array, n);*/
 		}
@@ -151,7 +151,7 @@ int main(int argc, const char* argv[])
 			startTime = currentTimeMillis();
 			heapSort(r_array, n);
 			//heapSort(t_array, n);
-			heapSort(v_array, n);
+			//heapSort(v_array, n);
 		}
 		else if (i == 6)
 		{
@@ -326,16 +326,17 @@ void inserionSort(T & a, int size)
 template<typename T>
 void shellSort(T & a, int size)
 {
-	vector<int> Increments(size);
+	vector<int> Increments;
 	/*For h = 1, i = 0, h < n
 		Increments(i) = h
 		h = 3 * h + 1
 	for end*/
 	int h = 0;
 	int i = 0;
-	for (h = 1, i = 0; h < size; h = 3 * h + 1)
+	for (h = 1, i = 0; h < size; i++)
 	{
-		Increments[i] = h;
+		Increments.push_back(h);
+		h = 3 * h + 1;
 	}
 	/*For i number of increments
 	h = Increments(i)
@@ -357,21 +358,27 @@ void shellSort(T & a, int size)
 	*/
 	int temp = 0;
 	int k = 0;
-	for (i = 0; i < Increments.size(); i++)
+	for (i = Increments.size() - 1; i >= 0; i--)
 	{
 		h = Increments[i];
 		for (int hCnt = h; hCnt < 2 * h; hCnt++)
 		{
-			for (int j = hCnt; j < size; j = j + h)
+			for (int j = hCnt; j < size; j++)
 			{
 				temp = a[j];
-				k = j;
-				while (k - h >= 0 && temp < a[k - h])
+				for (k = j; (k >= h) && (temp < a[k-h]); k -= h)
+				{
+					a[k] = a[k - h];
+					//k = k - h;
+				}
+
+				/*while (k - h >= 0 && temp < a[k - h])
 				{
 					a[k] = a[k - h];
 					k = k - h;
-				}
+				}*/
 				a[k] = temp;
+				//j = j + h;
 			}
 		}
 	}

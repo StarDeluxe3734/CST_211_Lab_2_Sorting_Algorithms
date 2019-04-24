@@ -1,0 +1,17 @@
+
+Brute Force Sort for 4000 integers: 229
+ 0 25 49 73
+Flagged Bubble Sort for 4000 integers: 227
+ 0 25 49 73
+Selection Sort for 4000 integers: 24
+ 0 25 49 73
+Insertion Sort for 4000 integers: 13
+ 0 25 49 73
+Shell Sort for 4000 integers: 36
+ 0 25 49 73
+Heap Sort for 4000 integers: 2
+ 0 25 49 73
+Merge Sort for 4000 integers: 24
+ 0 25 49 73
+Quick Sort for 4000 integers: 0
+ 0 25 49 73
