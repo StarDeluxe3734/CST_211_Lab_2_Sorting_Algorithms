@@ -46,12 +46,16 @@ void copyVals(int * r_array, int * c_r_array, Array<int>* t_array, Array<int>* c
 template< typename T >inline void swap(T & a, int first, int second);
 
 //Sorts
-template< typename T > void displayTest(T & a, int size);
 template< typename T > void bruteForceBubble(T & a, int size);
+
 template< typename T > void flagBubble(T & a, int size);
+
 template< typename T > void selectionSort(T & a, int size);
-template< typename T > void inserionSort(T & a, int size);
+
+template< typename T > void insertionSort(T & a, int size);
+
 template< typename T > void shellSort(T & a, int size);
+
 template< typename T > void heapSort(T & a, int n);
 template< typename T > void moveDown(T & a, int first, int last);
 
@@ -104,8 +108,8 @@ int main(int argc, const char* argv[])
 			strcpy(sort, "Brute Force Sort");
 			startTime = currentTimeMillis();
 			bruteForceBubble(r_array, n);
-			//bruteForceBubble(t_array, n);
-			//bruteForceBubble(v_array, n);
+			bruteForceBubble(t_array, n);
+			bruteForceBubble(v_array, n);
 		}
 		else if (i == 1)
 		{
@@ -130,9 +134,9 @@ int main(int argc, const char* argv[])
 			sort = new char[strlen("Insertion Sort") + 1];
 			strcpy(sort, "Insertion Sort");
 			startTime = currentTimeMillis();
-			inserionSort(r_array, n);
-			inserionSort(t_array, n);
-			inserionSort(v_array, n);
+			insertionSort(r_array, n);
+			insertionSort(t_array, n);
+			insertionSort(v_array, n);
 		}
 		else if (i == 4)
 		{
@@ -142,7 +146,6 @@ int main(int argc, const char* argv[])
 			shellSort(r_array, n); 
 			shellSort(v_array, n);
 			shellSort(t_array, n);
-			//shellSort(v_array, n);*/
 		}
 		else if (i == 5)
 		{
@@ -173,8 +176,8 @@ int main(int argc, const char* argv[])
 		}
 		long stopTime = currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
-		myfile << endl << sort << " for " << n << " integers: " << elapsedTime << endl;
-		cout << sort << " for " << n << " integers: " << elapsedTime << endl;
+		myfile << endl << sort << " for " << n << " integers milliseconds: " << elapsedTime << endl;
+		cout << sort << " for " << n << " integers in milliseconds: " << elapsedTime << endl;
 		for (int i = 0; i < n; i = i + 1000)
 		{
 			if (i < n)
@@ -183,12 +186,6 @@ int main(int argc, const char* argv[])
 				myfile << " " << r_array[i];
 			}
 		}
-
-		/*for (int i = 0; i < n; i++)
-		{
-			if (i < n) cout << " " << r_array[i];
-		}*/
-
 		cout << endl;
 
 		delete[] sort;
@@ -295,7 +292,7 @@ void selectionSort(T & a, int size)
 *	Array is sorted from smallest to largest.
 ************************************************************************/
 template<typename T>
-void inserionSort(T & a, int size)
+void insertionSort(T & a, int size)
 {
 	int key = 0;
 	int j = 0;
@@ -327,10 +324,6 @@ template<typename T>
 void shellSort(T & a, int size)
 {
 	vector<int> Increments;
-	/*For h = 1, i = 0, h < n
-		Increments(i) = h
-		h = 3 * h + 1
-	for end*/
 	int h = 0;
 	int i = 0;
 	for (h = 1, i = 0; h < size; i++)
@@ -338,24 +331,6 @@ void shellSort(T & a, int size)
 		Increments.push_back(h);
 		h = 3 * h + 1;
 	}
-	/*For i number of increments
-	h = Increments(i)
-	// Loop on the number of subarrays for this pass
-	For hCnt = h, hCnt < 2 * h
-		// Do an insertion sort
-		For j = hCnt, j < n
-			tmp = ra(j)
-			k = j
-			Loop while k – h > = 0 and tmp < ra(k-h)
-				ra(k) = ra(k-h)
-				k = k – h
-			End Loop
-			ra(k) = tmp
-			j = j + h
-		End Loop
-	End Loop
-	End Loop
-	*/
 	int temp = 0;
 	int k = 0;
 	for (i = Increments.size() - 1; i >= 0; i--)
@@ -369,36 +344,11 @@ void shellSort(T & a, int size)
 				for (k = j; (k >= h) && (temp < a[k-h]); k -= h)
 				{
 					a[k] = a[k - h];
-					//k = k - h;
 				}
-
-				/*while (k - h >= 0 && temp < a[k - h])
-				{
-					a[k] = a[k - h];
-					k = k - h;
-				}*/
 				a[k] = temp;
-				//j = j + h;
 			}
 		}
 	}
-
-
-
-
-	/*for (int increment = size / 2; increment > 0; increment = increment / 2)
-	{
-		for (int i = increment; i < size; i += 1)
-		{
-			int temp = a[i];
-			int j;
-			for (j = i; j >= increment && a[j - increment] > temp; j -= increment)
-			{
-				a[j] = a[j - increment];
-			}
-			a[j] = temp;
-		}
-	}*/
 }
 
 
