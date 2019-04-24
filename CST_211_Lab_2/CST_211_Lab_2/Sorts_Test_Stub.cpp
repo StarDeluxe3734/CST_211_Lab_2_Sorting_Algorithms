@@ -92,7 +92,7 @@ int main(int argc, const char* argv[])
 
 
 
-	for (int i = 5; i <= 5; i++)
+	for (int i = 4; i <= 4; i++)
 	{
 		char * sort = nullptr;
 		copyVals(r_array, c_r_array, &t_array, &c_t_array, &v_array, &c_v_array, n);
@@ -112,7 +112,7 @@ int main(int argc, const char* argv[])
 			sort = new char[strlen("Flagged Bubble Sort") + 1];
 			strcpy(sort, "Flagged Bubble Sort");
 			startTime = currentTimeMillis();
-			bruteForceBubble(r_array, n);
+			flagBubble(r_array, n);
 			//bruteForceBubble(t_array, n);
 			//bruteForceBubble(v_array, n);
 		}
@@ -139,7 +139,8 @@ int main(int argc, const char* argv[])
 			sort = new char[strlen("Shell Sort") + 1];
 			strcpy(sort, "Shell Sort");
 			startTime = currentTimeMillis();
-			shellSort(r_array, n);
+			//shellSort(r_array, n); 
+			shellSort(v_array, n);
 			/*shellSort(t_array, n);
 			shellSort(v_array, n);*/
 		}
@@ -240,13 +241,14 @@ template<typename T>
 void flagBubble(T & a, int size)
 {
 	bool sorted = false;
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < size && sorted != true; i++)
 	{
 		sorted = true;
 		for (int j = 0; j < size - 1; j++)
 		{
 			if (a[j] > a[j + 1])
 			{
+				sorted = false;
 				swap(a, j, j + 1);
 			}
 		}
@@ -267,9 +269,11 @@ template<typename T>
 void selectionSort(T & a, int size)
 {
 	int min = 0;
-	for (int i = 0; i < size - 1; ++i) {
+	for (int i = 0; i < size - 1; ++i) 
+	{
 		min = i;
-		for (int j = i + 1; j < size; ++j) {
+		for (int j = i + 1; j < size; ++j) 
+		{
 			if (a[j] < a[min])
 			{
 				min = j;
@@ -322,7 +326,60 @@ void inserionSort(T & a, int size)
 template<typename T>
 void shellSort(T & a, int size)
 {
-	for (int increment = size / 2; increment > 0; increment = increment / 2)
+	vector<int> Increments(size);
+	/*For h = 1, i = 0, h < n
+		Increments(i) = h
+		h = 3 * h + 1
+	for end*/
+	int h = 0;
+	int i = 0;
+	for (h = 1, i = 0; h < size; h = 3 * h + 1)
+	{
+		Increments[i] = h;
+	}
+	/*For i number of increments
+	h = Increments(i)
+	// Loop on the number of subarrays for this pass
+	For hCnt = h, hCnt < 2 * h
+		// Do an insertion sort
+		For j = hCnt, j < n
+			tmp = ra(j)
+			k = j
+			Loop while k – h > = 0 and tmp < ra(k-h)
+				ra(k) = ra(k-h)
+				k = k – h
+			End Loop
+			ra(k) = tmp
+			j = j + h
+		End Loop
+	End Loop
+	End Loop
+	*/
+	int temp = 0;
+	int k = 0;
+	for (i = 0; i < Increments.size(); i++)
+	{
+		h = Increments[i];
+		for (int hCnt = h; hCnt < 2 * h; hCnt++)
+		{
+			for (int j = hCnt; j < size; j = j + h)
+			{
+				temp = a[j];
+				k = j;
+				while (k - h >= 0 && temp < a[k - h])
+				{
+					a[k] = a[k - h];
+					k = k - h;
+				}
+				a[k] = temp;
+			}
+		}
+	}
+
+
+
+
+	/*for (int increment = size / 2; increment > 0; increment = increment / 2)
 	{
 		for (int i = increment; i < size; i += 1)
 		{
@@ -334,7 +391,7 @@ void shellSort(T & a, int size)
 			}
 			a[j] = temp;
 		}
-	}
+	}*/
 }
 
 
@@ -566,11 +623,16 @@ void quickSort(T & ra, int first, int last)
 		{
 			m_large = m_large - 1;
 		}
-		//if(small < large)		Swap(ra(small++), ra(large--))
 		if (m_small <= m_large) swap(ra, m_small++, m_large--);
 	}
-	if (first < m_large - 1) quickSort(ra, first, m_large);
-	if (last > m_large + 1) quickSort(ra, m_small, last );
+	if (first < m_large - 1)
+	{
+		quickSort(ra, first, m_large);
+	}
+	if (last > m_large + 1)
+	{
+		quickSort(ra, m_small, last);
+	}
 }
 
 
@@ -578,13 +640,13 @@ void quickSort(T & ra, int first, int last)
 * Purpose: This function initiates three arrays to the same randomly generated numbers.
 *
 * Precondition:
-*	int * r_array -
-*	Array<int> * t_array - Arr
+*	int * r_array - C Style Array
+*	Array<int> * t_array - Templetated Class Array.
 *	vector<int> * v_array - Vector array of type of int.
 *	int size - Size of the arrays
 *
 * Postcondition:
-*	Array is sorted from smalles to biggest.
+*	All three arrays are filled with the same data.
 ************************************************************************/
 void genNum(int * r_array, Array<int> * t_array, vector<int> * v_array, int size)
 {
@@ -597,8 +659,6 @@ void genNum(int * r_array, Array<int> * t_array, vector<int> * v_array, int size
 
 	for (int i = 0; i < size; i++)
 	{
-
-		// rand() % (UpperTypeBound - LowerTypeBound + 1) + LowerTypeBound
 		temp = LowerTypeBound + rand() / (RAND_MAX / (UpperTypeBound - LowerTypeBound + 1) + 1);
 		r_array[i] = temp;
 		(*t_array)[i] = temp;
@@ -606,25 +666,39 @@ void genNum(int * r_array, Array<int> * t_array, vector<int> * v_array, int size
 	}
 }
 
+/**********************************************************************
+* Purpose: Swaps two elements in the array.
+*
+* Precondition:
+*	T & a - Array in which data is found
+*	int first - First element index.
+*	int second - Second element index.
+*
+* Postcondition:
+*	Data at indexes are swapped.
+************************************************************************/
 template<typename T>
 inline void swap(T & a, int first, int second)
 {
-	int temp = 0;
-	temp = (a)[first];
+	int temp = (a)[first];
 	(a)[first] = (a)[second];
 	(a)[second] = temp;
 }
 
-template< typename T > 
-void displayTest(T & a, int size)
-{
-	for (int i = 0; i < size; i++)
-	{
-		cout << " " << a[i];
-	}
-	cout << endl;
-}
-
+/**********************************************************************
+* Purpose: Copies value from three arrays into another three arrays of the same type.
+*
+* Precondition:
+*	int * r_array - C Style Array To copy values into.
+*	int * c_r_array - C Style Array To copy values from.
+*	Array<int>* t_array - Templetated Array To copy values into.
+*	Array<int>* c_t_array - Templetated Array To copy values from.
+*	vector<int>* v_array - Vector array to copy values into.
+*	vector<int>* c_v_array - Vector array to copy values from.
+*	int size - Size of the arrays.
+* Postcondition:
+*	Data is updated for all three arrays.
+************************************************************************/
 void copyVals(int * r_array, int * c_r_array, Array<int>* t_array, Array<int>* c_t_array, vector<int>* v_array, vector<int>* c_v_array, int size)
 {
 	(*v_array) = (*c_v_array);
