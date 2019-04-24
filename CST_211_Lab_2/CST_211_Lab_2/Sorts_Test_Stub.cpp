@@ -113,8 +113,8 @@ int main(int argc, const char* argv[])
 			strcpy(sort, "Flagged Bubble Sort");
 			startTime = currentTimeMillis();
 			flagBubble(r_array, n);
-			//bruteForceBubble(t_array, n);
-			//bruteForceBubble(v_array, n);
+			flagBubble(t_array, n);
+			flagBubble(v_array, n);
 		}
 		else if (i == 2)
 		{
@@ -122,8 +122,8 @@ int main(int argc, const char* argv[])
 			strcpy(sort, "Selection Sort");
 			startTime = currentTimeMillis();
 			selectionSort(r_array, n);
-			//selectionSort(t_array, n);
-			//selectionSort(v_array, n);
+			selectionSort(t_array, n);
+			selectionSort(v_array, n);
 		}
 		else if (i == 3)
 		{
@@ -131,8 +131,8 @@ int main(int argc, const char* argv[])
 			strcpy(sort, "Insertion Sort");
 			startTime = currentTimeMillis();
 			inserionSort(r_array, n);
-			/*inserionSort(t_array, n);
-			inserionSort(v_array, n);*/
+			inserionSort(t_array, n);
+			inserionSort(v_array, n);
 		}
 		else if (i == 4)
 		{
@@ -140,9 +140,9 @@ int main(int argc, const char* argv[])
 			strcpy(sort, "Shell Sort");
 			startTime = currentTimeMillis();
 			shellSort(r_array, n); 
-			//shellSort(v_array, n);
-			/*shellSort(t_array, n);
-			shellSort(v_array, n);*/
+			shellSort(v_array, n);
+			shellSort(t_array, n);
+			//shellSort(v_array, n);*/
 		}
 		else if (i == 5)
 		{
@@ -150,8 +150,8 @@ int main(int argc, const char* argv[])
 			strcpy(sort, "Heap Sort");
 			startTime = currentTimeMillis();
 			heapSort(r_array, n);
-			//heapSort(t_array, n);
-			//heapSort(v_array, n);
+			heapSort(t_array, n);
+			heapSort(v_array, n);
 		}
 		else if (i == 6)
 		{
@@ -159,8 +159,8 @@ int main(int argc, const char* argv[])
 			strcpy(sort, "Merge Sort");
 			startTime = currentTimeMillis();
 			mergeSort(r_array, n);
-			//mergeSort(t_array, n);
-			//mergeSort(v_array, n);
+			mergeSort(t_array, n);
+			mergeSort(v_array, n);
 		}
 		else if (i == 7)
 		{
@@ -168,8 +168,8 @@ int main(int argc, const char* argv[])
 			strcpy(sort, "Quick Sort");
 			startTime = currentTimeMillis();
 			quickSort(r_array, n);
-			//mergeSort(t_array, n);
-			//mergeSort(v_array, n);
+			quickSort(t_array, n);
+			quickSort(v_array, n);
 		}
 		long stopTime = currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
