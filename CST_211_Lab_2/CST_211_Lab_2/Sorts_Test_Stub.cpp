@@ -299,8 +299,7 @@ void insertionSort(T & a, int size)
 	for (int i = 1; i < size; i++)
 	{
 		key = a[i];
-		j = i - 1;
-
+		j = i - 1; 
 		while (j >= 0 && a[j] > key)
 		{
 			a[j + 1] = a[j];
