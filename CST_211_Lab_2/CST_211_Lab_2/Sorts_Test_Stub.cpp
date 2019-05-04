@@ -94,100 +94,241 @@ int main(int argc, const char* argv[])
 	ofstream myfile;
 	myfile.open("Time of Sorts.txt");
 
+	int type = 0;
 
-
-	for (int i = 0; i <= 7; i++)
+	for (int i = 0; i <= 7; )
 	{
 		char * sort = nullptr;
+		char * typeOut = nullptr;
 		copyVals(r_array, c_r_array, &t_array, &c_t_array, &v_array, &c_v_array, n);
 		long startTime = currentTimeMillis();
-
+	
 		if (i == 0)
 		{
 			sort = new char[strlen("Brute Force Sort") + 1];
 			strcpy(sort, "Brute Force Sort");
 			startTime = currentTimeMillis();
-			bruteForceBubble(r_array, n);
-			bruteForceBubble(t_array, n);
-			bruteForceBubble(v_array, n);
+			if (type == 0)
+			{
+				bruteForceBubble(r_array, n);
+			}
+			else if (type == 1) 
+			{
+				bruteForceBubble(t_array, n);
+			}
+			else if (type == 2) 
+			{
+				bruteForceBubble(v_array, n);
+			}
 		}
 		else if (i == 1)
 		{
 			sort = new char[strlen("Flagged Bubble Sort") + 1];
 			strcpy(sort, "Flagged Bubble Sort");
 			startTime = currentTimeMillis();
-			flagBubble(r_array, n);
-			flagBubble(t_array, n);
-			flagBubble(v_array, n);
+			if (type == 0)
+			{
+				flagBubble(r_array, n);
+			}
+			else if (type == 1)
+			{
+				flagBubble(t_array, n);
+			}
+			else if (type == 2)
+			{
+				flagBubble(v_array, n);
+			}
 		}
 		else if (i == 2)
 		{
 			sort = new char[strlen("Selection Sort") + 1];
 			strcpy(sort, "Selection Sort");
 			startTime = currentTimeMillis();
-			selectionSort(r_array, n);
-			selectionSort(t_array, n);
-			selectionSort(v_array, n);
+			if (type == 0)
+			{
+				selectionSort(r_array, n);
+			}
+			else if (type == 1)
+			{
+				selectionSort(t_array, n);
+			}
+			else if (type == 2)
+			{
+				selectionSort(v_array, n);
+			}
 		}
 		else if (i == 3)
 		{
 			sort = new char[strlen("Insertion Sort") + 1];
 			strcpy(sort, "Insertion Sort");
 			startTime = currentTimeMillis();
-			insertionSort(r_array, n);
-			insertionSort(t_array, n);
-			insertionSort(v_array, n);
+			if (type == 0)
+			{
+				insertionSort(r_array, n);
+			}
+			else if (type == 1)
+			{
+				insertionSort(t_array, n);
+			}
+			else if (type == 2)
+			{
+				insertionSort(v_array, n);
+			}
 		}
 		else if (i == 4)
 		{
 			sort = new char[strlen("Shell Sort") + 1];
 			strcpy(sort, "Shell Sort");
 			startTime = currentTimeMillis();
-			shellSort(r_array, n); 
-			shellSort(v_array, n);
-			shellSort(t_array, n);
+			if (type == 0)
+			{
+				shellSort(r_array, n);
+			}
+			else if (type == 1)
+			{
+				shellSort(v_array, n);
+			}
+			else if (type == 2)
+			{
+				shellSort(t_array, n);
+			}
 		}
 		else if (i == 5)
 		{
 			sort = new char[strlen("Heap Sort") + 1];
 			strcpy(sort, "Heap Sort");
 			startTime = currentTimeMillis();
-			heapSort(r_array, n);
-			heapSort(t_array, n);
-			heapSort(v_array, n);
+			if (type == 0)
+			{
+				heapSort(r_array, n);
+			}
+			else if (type == 1)
+			{
+				heapSort(t_array, n);
+			}
+			else if (type == 2)
+			{
+				heapSort(v_array, n);
+			}
 		}
 		else if (i == 6)
 		{
 			sort = new char[strlen("Merge Sort") + 1];
 			strcpy(sort, "Merge Sort");
 			startTime = currentTimeMillis();
-			mergeSort(r_array, n);
-			mergeSort(t_array, n);
-			mergeSort(v_array, n);
+			if (type == 0)
+			{
+				mergeSort(r_array, n);
+			}
+			else if (type == 1)
+			{
+				mergeSort(t_array, n);
+			}
+			else if (type == 2)
+			{
+				mergeSort(v_array, n);
+			}
 		}
 		else if (i == 7)
 		{
 			sort = new char[strlen("Quick Sort") + 1];
 			strcpy(sort, "Quick Sort");
 			startTime = currentTimeMillis();
-			quickSort(r_array, n);
-			quickSort(t_array, n);
-			quickSort(v_array, n);
+			if (type == 0)
+			{
+				quickSort(r_array, n);
+			}
+			else if (type == 1)
+			{
+				quickSort(t_array, n);
+			}
+			else if (type == 2)
+			{
+				quickSort(v_array, n);
+			}
 		}
 		long stopTime = currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
-		myfile << endl << sort << " for " << n << " integers milliseconds: " << elapsedTime << endl;
-		cout << sort << " for " << n << " integers in milliseconds: " << elapsedTime << endl;
-		for (int i = 0; i < n; i = i + 1000)
+
+		if (type == 0)
 		{
-			if (i < n)
+			typeOut = new char[strlen("Regular Array") + 1];
+			strcpy(typeOut, "Regular Array");
+			type = 1;
+		}
+		else if (type == 1)
+		{
+			typeOut = new char[strlen("Templated Array") + 1];
+			strcpy(typeOut, "Templated Array");
+			type = 2;
+		}
+		else if (type == 2)
+		{
+			typeOut = new char[strlen("Vector Array") + 1];
+			strcpy(typeOut, "Vector Array");
+			type = 0;
+			i++;
+		}
+
+		myfile << endl << sort << " on type " << typeOut << " for " << n << " integers milliseconds: " << elapsedTime << endl;
+		cout << sort << " on type " << typeOut << " for " << n << " integers in milliseconds: " << elapsedTime << endl;
+		
+		if (type - 1 == 0) 
+		{
+			for (int i = 0; i < n; i = i + 1000)
 			{
-				cout << " " << r_array[i];
-				myfile << " " << r_array[i];
+				if (i < n)
+				{
+					cout << " " << r_array[i];
+					myfile << " " << r_array[i];
+				}
 			}
 		}
-		cout << endl;
+		else if (type - 1 == 1)
+		{
+			for (int i = 0; i < n; i = i + 1000)
+			{
+				if (i < n)
+				{
+					cout << " " << t_array[i];
+					myfile << " " << t_array[i];
+				}
+			}
+		}
+		else if (type - 1 == -1)
+		{
+			for (int i = 0; i < n; i = i + 1000)
+			{
+				if (i < n)
+				{
+					cout << " " << v_array[i];
+					myfile << " " << v_array[i];
+				}
+			}
+		}
 
+		
+
+		/*for (int j = 0; j < n && type == 1; j = j + 1000)
+		{
+			if (j < n)
+			{
+				cout << " " << t_array[j];
+				myfile << " " << t_array[j];
+			}
+		}
+
+		for (int j = 0; j < n && type == 2; j = j + 1000)
+		{
+			if (j < n)
+			{
+				cout << " " << v_array[j];
+				myfile << " " << v_array[j];
+			}
+		}*/
+
+		cout << endl;
+		delete[] typeOut;
 		delete[] sort;
 	}
 	
